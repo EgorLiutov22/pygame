@@ -39,7 +39,7 @@ class Button:
         surface.blit(self.image, (self.rect.x, self.rect.y))
         return action
 
-
+push_sound = pygame.mixer.Sound("1.ogg")
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Главное меню')
 resume_img = pygame.image.load('buttons/button_resume.png').convert_alpha()
@@ -70,24 +70,40 @@ while run:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 game_pause = not game_pause
+                pygame.mixer.Sound.play(push_sound)
+                pygame.mixer.music.stop()
 
     if game_pause:
         if menu_state == 'main':
             if resume_button.draw(screen):
                 game_pause = False
+                pygame.mixer.Sound.play(push_sound)
+                pygame.mixer.music.stop()
             elif options_button.draw(screen):
                 menu_state = 'options'
+                pygame.mixer.Sound.play(push_sound)
+                pygame.mixer.music.stop()
             elif quit_button.draw(screen):
                 run = False
+                pygame.mixer.Sound.play(push_sound)
+                pygame.mixer.music.stop()
         elif menu_state == 'options':
             if video_button.draw(screen):
                 print('Vidio options')
+                pygame.mixer.Sound.play(push_sound)
+                pygame.mixer.music.stop()
             elif audio_button.draw(screen):
                 print('audio options')
+                pygame.mixer.Sound.play(push_sound)
+                pygame.mixer.music.stop()
             elif keys_button.draw(screen):
                 print('Keys options')
+                pygame.mixer.Sound.play(push_sound)
+                pygame.mixer.music.stop()
             elif back_button.draw(screen):
                 menu_state = 'main'
+                pygame.mixer.Sound.play(push_sound)
+                pygame.mixer.music.stop()
 
     else:
         draw_text("Нажмите пробел для паузы", font, TEXT_COL, 160, 250, screen)
