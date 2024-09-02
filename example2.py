@@ -1,42 +1,39 @@
 import pygame
+import time
 
-# pygame setup
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
-clock = pygame.time.Clock()
-running = True
-dt = 0
+display_surface = pygame.display.set_mode((500, 500))
+pygame.display.set_caption('Text')
 
-player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+font = pygame.font.SysFont(None, 40)
+text = 'PyGame!'
+img = font.render(text, True, (255, 0, 0))
+rect = img.get_rect()
+rect.topleft = (20, 20)
+cursor = pygame.Rect(rect.topright, (3, rect.height))
 
-while running:
-    # poll for events
-    # pygame.QUIT event means the user clicked X to close your window
+
+while True:
+    # display_surface.fill((255, 0, 0))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            pygame.quit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_BACKSPACE:
+                if len(text) > 0:
+                    text = text[:-1]
+            else:
+                text += event.unicode
 
-    # fill the screen with a color to wipe away anything from last frame
-    screen.fill("purple")
+            img = font.render(text, True, (255, 0, 0))
+            rect.size = img.get_size()
+            cursor.topleft = rect.topright
+            if time.time() % 1 > 0.5:
+                pygame.draw.rect(display_surface, (255, 0, 0), cursor)
 
-    pygame.draw.circle(screen, "red", player_pos, 40)
+    display_surface.blit(img, rect)
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
-        player_pos.y -= 300 * dt
-    if keys[pygame.K_s]:
-        player_pos.y += 300 * dt
-    if keys[pygame.K_a]:
-        player_pos.x -= 300 * dt
-    if keys[pygame.K_d]:
-        player_pos.x += 300 * dt
+    pygame.display.update()
 
-    # flip() the display to put your work on screen
-    pygame.display.flip()
-
-    # limits FPS to 60
-    # dt is delta time in seconds since last frame, used for framerate-
-    # independent physics.
-    dt = clock.tick(60) / 1000
-
-pygame.quit()
+# pygame.quit()
