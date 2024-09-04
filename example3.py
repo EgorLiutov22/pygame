@@ -16,8 +16,8 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('player.png')
         self.xvel = 0
 
-    def draw(self, screen):
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+    def draw(self, scr):
+        scr.blit(self.image, (self.rect.x, self.rect.y))
 
     def update(self, left, right):
         if left:
